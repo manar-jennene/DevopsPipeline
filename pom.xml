@@ -57,6 +57,10 @@
 	</dependencies>
 
 	<build>
+		<properties>
+    			<sonar.java.binaries>target/classes</sonar.java.binaries>
+		</properties>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
