@@ -16,14 +16,10 @@ pipeline {
       }
     }
 
-    stage('SonarQube Analysis') {
+    stage('mvn SonarQube') {
     steps {
-        script {
-            def scannerHome = tool 'scanner'
-            withSonarQubeEnv {
-                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=ChadhaTWIN8"
-            }
-        }
+       mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar
+
     }
 }
 
