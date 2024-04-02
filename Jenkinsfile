@@ -20,5 +20,13 @@ pipeline {
                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar -Dsonar.exclusions=**/*.java'
             }
         }
+
+        stage('Nexus') {
+            steps {
+                script {
+                sh 'mvn deploy -DskipTests'
+                    }
+            }
+        }
     }
 }
