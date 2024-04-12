@@ -34,11 +34,34 @@ pipeline {
             }
         }
 
+<<<<<<< HEAD
       stage('Build Docker Image (Spring Part)') {
     steps {
         script {
             // Assurez-vous que cette commande est exécutée sur un agent où Jenkins a les droits Docker appropriés.
             def dockerImage = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
+=======
+       stage('Build Docker Image (Spring Part)') {
+            steps {
+                script {
+                    sh 'sudo chmod 666 /var/run/docker.sock'
+                    def dockerImage=docker.build("manar23/timesheet-devops:1.0.0")
+                }
+            }
+        }
+
+        stage('Push Docker Image to DockerHub') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerpwd')]) {
+                        sh '''
+                        docker login -u manar23 -p "manar23071"
+                        docker push manar23/timesheet-devops:1.0.0
+                        '''
+                    }
+                }
+            }
+>>>>>>> d4208edaabff970c1066b6ebb33715b35d079f2c
         }
     }
 }
