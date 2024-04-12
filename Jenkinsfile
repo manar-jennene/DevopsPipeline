@@ -34,25 +34,15 @@ pipeline {
             }
         }
 
-         // Ajout de la construction de l'image Docker
-               stage('Build Docker Image') {
-                   steps {
-                       script {
-                           sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
-                       }
-                   }
-               }
-
-        // Ajout du dépôt de l'image Docker sur DockerHub
-        stage('Push to DockerHub') {
-            steps {
-                script {
-                    sh "docker login -u manar23 -p manar23071"
-                    sh "docker push manar23/timesheet-devops:1.0.0"
-
-                }
-            }
+      stage('Build Docker Image (Spring Part)') {
+    steps {
+        script {
+            // Assurez-vous que cette commande est exécutée sur un agent où Jenkins a les droits Docker appropriés.
+            def dockerImage = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
         }
+    }
+}
+
 
         stage('Monitoring with Prometheus and Grafana') {
             steps {
