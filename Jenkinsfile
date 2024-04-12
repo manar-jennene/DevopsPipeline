@@ -34,22 +34,24 @@ pipeline {
             }
         }
 
-         // Ajout de la construction de l'image Docker
-               stage('Build Docker Image') {
-                   steps {
-                       script {
-                           sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
-                       }
-                   }
-               }
-
-        // Ajout du dépôt de l'image Docker sur DockerHub
-        stage('Push to DockerHub') {
+       stage('Build Docker Image (Spring Part)') {
             steps {
                 script {
-                    sh "docker login -u manar23 -p manar23071"
-                    sh "docker push manar23/timesheet-devops:1.0.0"
+                    sh 'sudo chmod 666 /var/run/docker.sock'
+                    def dockerImage=docker.build("manar23/timesheet-devops:1.0.0")
+                }
+            }
+        }
 
+        stage('Push Docker Image to DockerHub') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerpwd')]) {
+                        sh '''
+                        docker login -u manar23 -p "manar23071"
+                        docker push manar23/timesheet-devops:1.0.0
+                        '''
+                    }
                 }
             }
         }
