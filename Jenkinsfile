@@ -46,7 +46,7 @@ pipeline {
         stage('Push Docker Image to DockerHub') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerpwd')]) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhubpwd', usernameVariable: 'chadhahannachi', passwordVariable: 'chadha123')]) {
                         sh '''
                         docker login -u chadhahannachi -p "chadha123"
                         docker push chadhahannachi/achat:1.0.0
