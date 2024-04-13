@@ -1,0 +1,3 @@
+# Ignore les fichiers et répertoires générés par Maven
+target/
+*.jar
