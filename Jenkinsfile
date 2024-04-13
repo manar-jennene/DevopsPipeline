@@ -37,7 +37,7 @@ pipeline {
        stage('Build Docker Image (Spring Part)') {
             steps {
                 script {
-                    sh 'sudo chmod 666 /var/run/docker.sock'
+                    // sh 'sudo chmod 666 /var/run/docker.sock'
                     def dockerImage=docker.build("chadhahannachi/achat:1.0.0")
                 }
             }
@@ -55,7 +55,15 @@ pipeline {
                 }
             }
         }
- 
+
+        stage('Run Docker Compose') {
+    steps {
+        script {
+            sh 'docker-compose up -d'
+        }
+    }
+}
+
 
     }
 }
