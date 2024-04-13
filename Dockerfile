@@ -1,13 +1,11 @@
-# Utiliser une image Ubuntu en tant que base
-FROM ubuntu:latest
+# Utiliser une image de base qui contient Java (par exemple openjdk)
+FROM openjdk:11-jre-slim
 
-# Mettre à jour les paquets et installer Java
-RUN apt-get update && \
-    apt-get install -y openjdk-8-jdk && \
-    apt-get clean;
+# Copier le fichier JAR depuis le répertoire target local dans le conteneur
+COPY target/achat-1.0.jar /app/
 
-# Copier le fichier JAR construit dans le conteneur
-COPY target/achat-1.0-SNAPSHOT.jar /app/achat.jar
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
 
 # Commande par défaut à exécuter lorsque le conteneur démarre
-CMD ["java", "-jar", "/app/achat.jar"]
+CMD ["java", "-jar", "achat-1.0.jar"]
