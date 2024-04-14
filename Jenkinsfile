@@ -34,7 +34,7 @@ pipeline {
         }
 
 
-        stage('Build Docker Image (Spring Part)') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     // sh 'sudo chmod 666 /var/run/docker.sock'
@@ -64,28 +64,16 @@ pipeline {
     }
 }
 
-//         stage('Setup Monitoring') {
-//     steps {
-//         script {
-//             // Créer un conteneur Docker Prometheus
-//             sh 'docker run -d --name prometheus -p 9090:9090 prom/prometheus'
+        stage('Setup Monitoring') {
+    steps {
+        script {
+            
+            sh 'docker start prometheus'
+            sh 'docker start grafana'
 
-//             // Configurer Prometheus pour surveiller Jenkins
-//             sh '''
-//             docker exec -it prometheus sh -c "tee -a /etc/prometheus/prometheus.yml <<EOF
-//             - job_name: jenkins
-//               metrics_path: /prometheus
-//               static_configs:
-//               - targets: ['172.17.0.1:8080']"'''
-
-//             // Redémarrer le conteneur Prometheus
-//             sh 'docker restart prometheus'
-
-//             // Créer un conteneur Docker Grafana
-//             sh 'docker run -d --name grafana -p 3000:3000 grafana/grafana'
-//         }
-//     }
-// }
+        }
+    }
+}
 
 
     }
