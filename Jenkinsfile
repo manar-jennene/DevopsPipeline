@@ -34,12 +34,12 @@ pipeline {
         }
 
 
-       stage('Build Docker Image (Spring Part)') {
+       stage('Build, Push, and Run Docker') {
             steps {
                 script {
                     // sh 'sudo chmod 666 /var/run/docker.sock'
                     
-                    // Build Docker Image
+                    // Build Docker Image(SpringPart)
                     def dockerImage=docker.build("chadhahannachi/achat:1.0.0")
 
                     // Push Docker Image to DockerHub
