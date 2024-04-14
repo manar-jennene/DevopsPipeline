@@ -68,11 +68,7 @@ pipeline {
         stage('Setup Monitoring') {
     steps {
         script {
-            // Installer le plugin Prometheus Metrics dans Jenkins
-            // Redémarrer Jenkins si nécessaire
-
             // Créer un conteneur Docker Prometheus
-            sh 'sudo chmod 666 /var/run/docker.sock'
             sh 'docker run -d --name prometheus -p 9090:9090 prom/prometheus'
 
             // Configurer Prometheus pour surveiller Jenkins
@@ -81,7 +77,7 @@ pipeline {
             - job_name: jenkins
               metrics_path: /prometheus
               static_configs:
-              - targets: ['172.17.0.1:8080']'''
+              - targets: ['172.17.0.1:8080']"'''
 
             // Redémarrer le conteneur Prometheus
             sh 'docker restart prometheus'
