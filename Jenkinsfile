@@ -81,7 +81,7 @@ pipeline {
             - job_name: jenkins
               metrics_path: /prometheus
               static_configs:
-              - targets: ['172.17.0.1:8080']"'
+              - targets: ['172.17.0.1:8080']'''
 
             // Redémarrer le conteneur Prometheus
             sh 'docker restart prometheus'
