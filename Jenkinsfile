@@ -64,6 +64,15 @@ pipeline {
     }
 }
 
+        stage('Email') {
+            steps {
+                mail(to: 'chadhahannachi675@gmail.com',
+                     subject: "Build Successful: ${currentBuild.fullDisplayName}",
+                     body: "Good news, the build succeeded!")
+            }
+        }
+
+
         stage('Setup Monitoring') {
     steps {
         script {
