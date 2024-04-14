@@ -1,10 +1,13 @@
-FROM openjdk:11-jre-slim
 
-# Copier le fichier JAR depuis le répertoire target local dans le conteneur
-COPY target/achat-1.0.jar /app/
+FROM alpine
+RUN apk add openjdk11
 
-# Définir le répertoire de travail dans le conteneur
-WORKDIR /app
+# Exposez le port sur lequel votre application va communiquer
+EXPOSE 8082
+CMD "jave"
 
-# Commande par défaut à exécuter lorsque le conteneur démarre
-CMD ["java", "-jar", "achat-1.0.jar"]
+# Ajoutez le fichier jar compilé dans l'image Docker
+ADD target/achat-1.0-SNAPSHOT.jar achat-1.0-SNAPSHOT.jar
+
+# Commande pour exécuter l'application
+ENTRYPOINT ["java","-jar","/achat-1.0-SNAPSHOT.jar"]
