@@ -13,9 +13,9 @@ pipeline {
             }
         }
 
-        stage('Testing maven') {
+        stage('maven build') {
             steps {
-                sh 'mvn -version'
+                sh 'mvn clean compile'
             }
         }
 
@@ -34,28 +34,35 @@ pipeline {
         }
 
 
-       stage('Build, Push, and Run Docker') {
+        stage('Build Docker Image (Spring Part)') {
             steps {
                 script {
                     // sh 'sudo chmod 666 /var/run/docker.sock'
-                    
-                    // Build Docker Image(SpringPart)
                     def dockerImage=docker.build("chadhahannachi/achat:1.0.0")
+                }
+            }
+        }
 
-                    // Push Docker Image to DockerHub
+        stage('Push Docker Image to DockerHub') {
+            steps {
+                script {
                     withCredentials([usernamePassword(credentialsId: 'dockerhubpwd', usernameVariable: 'chadhahannachi', passwordVariable: 'chadha123')]) {
                         sh '''
                         docker login -u chadhahannachi -p "chadha123"
                         docker push chadhahannachi/achat:1.0.0
                         '''
-
-                    // Run Docker Compose
-                     sh 'docker-compose up -d'
+                    }
                 }
             }
         }
 
-       }
+        stage('Run Docker Compose') {
+    steps {
+        script {
+            sh 'docker-compose up -d'
+        }
+    }
+}
 
 //         stage('Setup Monitoring') {
 //     steps {
